@@ -16,9 +16,9 @@ import (
 const version = "1.0.0"
 
 type config struct {
-	port   int
-	env    string
-	dbConn string
+	port  int
+	env   string
+	dbUrl string
 }
 
 type application struct {
@@ -32,13 +32,17 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 4000, "API Server Port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment: (development|staging|production)")
-	flag.StringVar(&cfg.dbConn, "dbConn", "", "Connection string to Turso database")
+	flag.StringVar(&cfg.dbUrl, "dbUrl", "", "Connection string to Turso database")
 	flag.Parse()
+
+	if cfg.dbUrl == "" {
+		log.Fatal("FATAL ERROR: DB_URL env variable not set.")
+	}
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	// initialize pool of database connections
-	db, err := sql.Open("libsql", cfg.dbConn)
+	db, err := sql.Open("libsql", cfg.dbUrl)
 	if err != nil {
 		log.Fatal("unable to open database connection: ", err)
 	}

@@ -5,7 +5,7 @@ if [ -f .env ]; then
 fi
 
 # build the go binary
-go build -o pokeapi ./cmd/api
+go build -o ./bin/pokeapi ./cmd/api
 
-# Run the binary with flags
-./pokeapi -dbConn="$DB_URL" -env="development"
+# Run the binary with runtime flags
+./bin/pokeapi -dbConn="$DB_URL" -env="development"
