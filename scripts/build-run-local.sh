@@ -8,4 +8,4 @@ fi
 go build -o ./bin/pokeapi ./cmd/api
 
 # Run the binary with runtime flags
-./bin/pokeapi -dbConn="$DB_URL" -env="development"
+./bin/pokeapi -dbUrl="$DB_URL" -env="development"
